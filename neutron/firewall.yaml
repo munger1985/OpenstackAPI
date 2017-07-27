@@ -1,0 +1,499 @@
+# Neutron Firewall
+swagger: '2.0'
+# This is your document metadata
+info:
+  version: "0.0.1"
+  title: Firewall
+  description: SDN-Hub Neutron firewall groups, firewall polices, firewall rules
+# Describe your paths here
+
+host: 192.168.8.226:9696
+basePath: /v2.0
+produces:
+  - application/json
+consumes:
+  - application/json
+  - application/xml
+schemes:
+  - http
+paths:
+  /fwaas/firewall_groups:
+    get:
+      tags:
+        - firewall_groups
+      description:
+        return a array of firewall_groups information
+      parameters:
+        - name: fields
+          in: query
+          type: string
+          description:  The fields that you want the server to return. If no `fields` query parameter is specified, the networking API returns all attributes allowed by the policy settings. By using `fields` parameter, the API returns only the requested set of attributes. `fields` parameter can be specified multiple times. For example, if you specify `fields=id&fields=name` in the request URL, only `id` and `name` attributes will be returned.
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: firewall_groups
+            $ref: '#/definitions/firewall_groupsShell'
+      security:
+        - X-Auth-Token: []
+    post:
+      tags:
+        - firewall_groups
+      description: post firewalls
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: body
+          description: firewall_groups to post
+          required: false
+          schema:
+            $ref: "#/definitions/firewall_groupShell"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/firewall_groupShell'
+      security:
+        - X-Auth-Token: []
+
+  /fwaas/firewall_groups/{id}:
+    put:
+      summary: update
+      description:  update
+      tags:
+        - firewall_groups
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+        - in: body
+          name: body
+          description:   to post
+          required: false
+          schema:
+            $ref: "#/definitions/firewall_groupShell"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/firewall_groupShell'
+          description: OK
+      security:
+        - X-Auth-Token: []
+    delete:
+      tags:
+        - firewall_groups
+      summary: ""
+      description: ""
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+      security:
+        - X-Auth-Token: []
+    get:
+      summary: ""
+      description: ""
+      tags:
+              - firewall_groups
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/firewall_groupShell'
+      security:
+        - X-Auth-Token: []
+
+  /fwaas/firewall_policies:
+    get:
+      tags:
+        - firewall_policies
+      description:
+        return a array of firewall_policies information
+      parameters:
+        - name: fields
+          in: query
+          type: string
+          description:  The fields that you want the server to return. If no `fields` query parameter is specified, the networking API returns all attributes allowed by the policy settings. By using `fields` parameter, the API returns only the requested set of attributes. `fields` parameter can be specified multiple times. For example, if you specify `fields=id&fields=name` in the request URL, only `id` and `name` attributes will be returned.
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: firewalls
+            $ref: '#/definitions/firewall_policiesShell'
+      security:
+        - X-Auth-Token: []
+    post:
+      tags:
+        - firewall_policies
+      description: post firewall_policies
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: body
+          description: firewall_groups to post
+          required: false
+          schema:
+            $ref: "#/definitions/firewall_policyShell"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/firewall_policyShell'
+      security:
+        - X-Auth-Token: []
+
+  /fwaas/firewall_policies/{id}:
+    put:
+      summary: update
+      description:  update
+      tags:
+        - firewall_policies
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+        - in: body
+          name: body
+          description:   to post
+          required: false
+          schema:
+            $ref: "#/definitions/firewall_policyShell"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/firewall_policyShell'
+          description: OK
+      security:
+        - X-Auth-Token: []
+    delete:
+      tags:
+        - firewall_policies
+      summary: ""
+      description: ""
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+      security:
+        - X-Auth-Token: []
+    get:
+      summary: ""
+      description: ""
+      tags:
+              - firewall_policies
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/firewall_policyShell'
+      security:
+        - X-Auth-Token: []
+
+  /fwaas/firewall_rules:
+    get:
+      tags:
+        - firewall_rules
+      description:
+        return a array of firewall_rules information
+      parameters:
+        - name: fields
+          in: query
+          type: string
+          description:  The fields that you want the server to return. If no `fields` query parameter is specified, the networking API returns all attributes allowed by the policy settings. By using `fields` parameter, the API returns only the requested set of attributes. `fields` parameter can be specified multiple times. For example, if you specify `fields=id&fields=name` in the request URL, only `id` and `name` attributes will be returned.
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: firewall_rulesShell
+            $ref:  '#/definitions/firewall_rulesShell'
+      security:
+        - X-Auth-Token: []
+    post:
+      tags:
+        - firewall_rules
+      description: post firewall_rules
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: body
+          description: firewall_groups to post
+          required: false
+          schema:
+            $ref: "#/definitions/firewall_ruleShell"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/firewall_ruleShell'
+      security:
+        - X-Auth-Token: []
+
+  /fwaas/firewall_rules/{id}:
+    put:
+      summary: update
+      description:  update
+      tags:
+        - firewall_rules
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+        - in: body
+          name: body
+          description:   to post
+          required: false
+          schema:
+            $ref: "#/definitions/firewall_ruleShell"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/firewall_ruleShell'
+          description: OK
+      security:
+        - X-Auth-Token: []
+    delete:
+      tags:
+        - firewall_rules
+      summary: ""
+      description: ""
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+      security:
+        - X-Auth-Token: []
+    get:
+      summary: ""
+      description: ""
+      tags:
+              - firewall_rules
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/firewall_ruleShell'
+      security:
+        - X-Auth-Token: []
+securityDefinitions:
+  X-Auth-Token:
+    type: apiKey
+    name: X-Auth-Token
+    in: header
+definitions:
+  firewall_groupsShell:
+    properties:
+      firewall_groups:
+            $ref: '#/definitions/firewall_groups'
+  firewall_groups:
+    type: array
+    description: A list of firewall_group objects.
+    items:
+      type: object
+      $ref: '#/definitions/firewall_group'
+  firewall_groupShell:
+    properties:
+      firewall_group:
+         $ref: '#/definitions/firewall_group'
+  firewall_group:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The ID of the firewall group.
+      admin_state_up:
+        type: boolean
+        description: The administrative state of the firewall group, which is up (true) or down (false). Default is true.
+      description:
+        type: string
+        description: A human-readable description of the firewall group.
+      egress_firewall_policy_id:
+        type: string
+        description: The ID of the egress firewall policy for the firewall group.
+      ingress_firewall_policy_id:
+        type: string
+        description: The ID of the ingress firewall policy for the firewall group.
+      name:
+        type: string
+        description: A human-readable name for the firewall group.
+      ports:
+        type: array
+        description: A list of the IDs of the ports associated with the firewall group.
+        items:
+          type: string
+      project_id:
+        type: string
+        description: The ID of the project that owns the resource.
+      public:
+        type: boolean
+        description: Indicates whether this firewall group is shared across all projects.
+      status:
+        type: string
+        description: The ID of the project that owns the resource.
+      tenant_id:
+        type: string
+        description: The ID of the project that owns the resource.
+
+  firewall_policies:
+    type: array
+    description: A list of firewall_policy objects.
+    items:
+      $ref: '#/definitions/firewall_policy'
+
+  firewall_policiesShell:
+    properties:
+      firewall_policies:
+          $ref: '#/definitions/firewall_policies'
+  firewall_policyShell:
+    properties:
+      firewall_policy:
+        $ref: '#/definitions/firewall_policy'
+
+  firewall_policy:
+    type: object
+    properties:
+      audited:
+        type: boolean
+        description: Each time that the firewall policy or its associated rules are changed, the API sets this attribute to false. To audit the policy, explicitly set this attribute to true.
+      description:
+        type: string
+        description: A human-readable description of the firewall policy.
+      firewall_rules:
+        $ref: '#/definitions/firewall_rules'
+        description: A list of the IDs of the firewall rules associated with the firewall policy
+      name:
+        type: string
+        description: A human-readable name of the firewall policy.
+      id:
+        type: string
+        description: The ID of the firewall policy
+      project_id:
+        type: string
+        description: The ID of the project that owns the resource.
+      public:
+        type: boolean
+        description: Indicates whether this firewall policy is shared across all projects.
+      tenant_id:
+        type: string
+        description: The ID of the project that owns the resource.
+
+  firewall_rules:
+    type: array
+    description: A list of firewall_rule objects.
+    items:
+      $ref: '#/definitions/firewall_rule'
+
+  firewall_rulesShell:
+    properties:
+      firewall_rules:
+        $ref: '#/definitions/firewall_rules'
+  firewall_ruleShell:
+    properties:
+      firewall_rule:
+        $ref: '#/definitions/firewall_rule'
+
+  firewall_rule:
+    type: object
+    properties:
+      action:
+        type: string
+        description: The action that the API performs on traffic that matches the firewall rule. Valid values are allow or deny. Default is deny.
+      description:
+        type: string
+        description: A human-readable description of the firewall rule.
+      destination_ip_address:
+        type: string
+        description: The destination IPv4 or IPv6 address or CIDR for the firewall rule. No default.
+      destination_port:
+        type: string
+        description: The destination port or port range for the firewall rule. A valid value is a port number, as an integer, or a port range, in the format of a :separated range. For a port range, include both ends of the range. For example, 80:90.
+      source_ip_address:
+        type: string
+        description: The source IPv4 or IPv6 address or CIDR for the firewall rule. No default.
+      source_port:
+        type: string
+        description: The source port or port range for the firewall rule. A valid value is a port number, as an integer, or a port range, in the format of a :separated range. For a port range, include both ends of the range. For example, 80:90.
+      enabled:
+        type: boolean
+        description: Set to false to disable this rule in the firewall policy. Facilitates selectively turning off rules without having to disassociate the rule from the firewall policy. Valid values are true or false. Default is true.
+      firewall_policy_id:
+        type: string
+        description: The ID of the firewall policy.
+      name:
+        type: string
+        description: A human-readable name of the firewall rule.
+      ip_version:
+        type: integer
+        description: The IP protocol version for the firewall rule. Valid values are 4 or 6. Default is 4.
+      id:
+        type: string
+        description: The ID of the firewall rule
+      protocol:
+        type: string
+        description: The IP protocol for the firewall rule. Possible values are icmp, tcp, udp, or null.
+      project_id:
+        type: string
+        description: The ID of the project that owns the resource.
+      public:
+        type: boolean
+        description: Indicates whether this firewall policy is shared across all projects.
+      tenant_id:  
+        type: string
+        description: The ID of the project that owns the resource. 
+        
+        
+        
+                  
