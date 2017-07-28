@@ -1,7 +1,6 @@
 # SDN-Hub Router
 swagger: '2.0'
 # create_at: 2017-3-28
-# author: diroguan
 info:
   version: "0.0.1"
   title: Router

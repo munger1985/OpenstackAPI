@@ -14,10 +14,20 @@ this repo has many folders, one folder is a component in openstack.
 
 ![s2.png](imgs/s2.png "")
 
-* get your favourite sdks, in fact, you already get best python sdk for openstack from openstack source code, but you can 
+* get your favourite sdks, in fact, you already get best python sdk for openstack from openstack source code, but you can get as u wish, for example java sdk for openstack rest apis.
+
 
 ![s3.png]( imgs/s3.png "")
 
+
+* for starters about swagger tools, you can run the below to access the swagger editor
+
+```
+docker pull swaggerapi/swagger-editor
+docker run -p 80:8080 swaggerapi/swagger-editor
+```
+
+and then you open your browser visit localhost:80 to get the swagger ui shown above
 # wishes
 
 hope many people contribute to this project, so that people will get many different languages sdks for your work around openstack rest api

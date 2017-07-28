@@ -2,7 +2,6 @@
 swagger: '2.0'
 
 # create at 2017-3-30
-# author : diroguan
 info:
   version: "1.0.0"
   title: Network
