@@ -28,6 +28,8 @@ docker run -p 80:8080 swaggerapi/swagger-editor
 ```
 
 and then you open your browser visit localhost:80 to get the swagger ui shown above
+
+or you can visit http://editor.swagger.io/ , and then paste those yamls to that editor, you will get.
 # wishes
 
 hope many people contribute to this project, so that people will get many different languages sdks for your work around openstack rest api
