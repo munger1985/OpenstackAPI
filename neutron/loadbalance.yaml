@@ -1,0 +1,857 @@
+# SDN-Hub Load Balancer
+swagger: '2.0'
+
+# create at 2017-3-30
+# author : diroguan
+info:
+  version: "0.0.1"
+  title:  Load Balancer
+  description: SDN-Hub Neutron  model, Load Balancer Model
+
+
+host: 192.168.8.226:9696
+basePath: /v2.0
+produces:
+  - application/json
+consumes:
+  - application/json
+  - application/xml
+schemes:
+  - http
+
+paths:
+  /lbaas/loadbalancers:
+    get:
+      tags:
+        - loadbalancers
+      description:
+        return a array of LoadBalancers information
+      parameters:
+        - name: fields
+          in: query
+          type: string
+          description:  The fields that you want the server to return. If no `fields` query parameter is specified, the networking API returns all attributes allowed by the policy settings. By using `fields` parameter, the API returns only the requested set of attributes. `fields` parameter can be specified multiple times. For example, if you specify `fields=id&fields=name` in the request URL, only `id` and `name` attributes will be returned.
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: LoadBalancers
+            $ref: '#/definitions/LoadBalancersShell'
+      security:
+        - X-Auth-Token: []
+    post:
+      tags:
+        - loadbalancers
+      description: post LoadBalancers
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: body
+          description: LoadBalancers to post
+          required: false
+          schema:
+            $ref: "#/definitions/LoadBalancerShell"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/LoadBalancerShell'
+      security:
+        - X-Auth-Token: []
+  /lbaas/loadbalancers/{id}:
+    put:
+      summary: update
+      description:  update
+      tags:
+        - loadbalancers
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+        - in: body
+          name: body
+          description:   to post
+          required: false
+          schema:
+            $ref: "#/definitions/LoadBalancerShell"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/LoadBalancerShell'
+          description: OK
+      security:
+        - X-Auth-Token: []
+    delete:
+      tags:
+        - loadbalancers
+      summary: ""
+      description: ""
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+      security:
+        - X-Auth-Token: []
+    get:
+      summary: ""
+      description: ""
+      tags:
+              - loadbalancers
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/LoadBalancerShell'
+      security:
+        - X-Auth-Token: []
+  /lbaas/listeners:
+    get:
+      tags:
+        - listeners
+      description:
+        return a array of listeners information
+      parameters:
+        - name: fields
+          in: query
+          type: string
+          description:  The fields that you want the server to return. If no `fields` query parameter is specified, the networking API returns all attributes allowed by the policy settings. By using `fields` parameter, the API returns only the requested set of attributes. `fields` parameter can be specified multiple times. For example, if you specify `fields=id&fields=name` in the request URL, only `id` and `name` attributes will be returned.
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: listeners
+            $ref: '#/definitions/Listeners'
+      security:
+        - X-Auth-Token: []
+    post:
+      tags:
+        - listeners
+      description: post listeners
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: body
+          description: LoadBalancers to post
+          required: false
+          schema:
+            $ref: "#/definitions/ListenerShell"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ListenerShell'
+      security:
+        - X-Auth-Token: []
+
+  /lbaas/listeners/{id}:
+    put:
+      summary: update
+      description:  update
+      tags:
+        - listeners
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+        - in: body
+          name: body
+          description:   to post
+          required: false
+          schema:
+            $ref: "#/definitions/ListenerShell"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/ListenerShell'
+          description: OK
+      security:
+        - X-Auth-Token: []
+    delete:
+      tags:
+        - listeners
+      summary: ""
+      description: ""
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+      security:
+        - X-Auth-Token: []
+    get:
+      summary: ""
+      description: ""
+      tags:
+              - listeners
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ListenerShell'
+      security:
+        - X-Auth-Token: []
+
+  /lbaas/pools:
+    get:
+      tags:
+        - pools
+      description:
+        return a array of pools information
+      parameters:
+        - name: fields
+          in: query
+          type: string
+          description:  The fields that you want the server to return. If no `fields` query parameter is specified, the networking API returns all attributes allowed by the policy settings. By using `fields` parameter, the API returns only the requested set of attributes. `fields` parameter can be specified multiple times. For example, if you specify `fields=id&fields=name` in the request URL, only `id` and `name` attributes will be returned.
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: listeners
+            $ref: '#/definitions/Pools'
+      security:
+        - X-Auth-Token: []
+    post:
+      tags:
+        - pools
+      description: post pools
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: body
+          description: LoadBalancers to post
+          required: false
+          schema:
+            $ref: "#/definitions/PoolShell"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/PoolShell'
+      security:
+        - X-Auth-Token: []
+
+  /lbaas/pools/{id}:
+    put:
+      summary: update
+      description:  update
+      tags:
+        - pools
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+        - in: body
+          name: body
+          description:   to post
+          required: false
+          schema:
+            $ref: "#/definitions/PoolShell"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/PoolShell'
+          description: OK
+      security:
+        - X-Auth-Token: []
+    delete:
+      tags:
+        - pools
+      summary: ""
+      description: ""
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+      security:
+        - X-Auth-Token: []
+    get:
+      summary: ""
+      description: ""
+      tags:
+              - pools
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/PoolShell'
+      security:
+        - X-Auth-Token: []
+  /lbaas/pools/{pool_id}/members:
+    get:
+      summary: ""
+      description: "members of one pool"
+      tags:
+              - poolMembers
+      parameters:
+        - name: pool_id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Members'
+      security:
+        - X-Auth-Token: []
+    post:
+      tags:
+        - poolMembers
+      description: post poolMembers
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: pool_id
+          in: path
+          description: "this is pool id"
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: poolMembers to post
+          required: false
+          schema:
+            $ref: "#/definitions/MemberShell"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/MemberShell'
+      security:
+        - X-Auth-Token: []
+
+  /lbaas/pools/{pool_id}/members/{member_id}:
+    put:
+      summary: update
+      description:  update
+      tags:
+        - poolMembers
+      parameters:
+        - in: path
+          name: pool_id
+          description: "asdad"
+          required: true
+          type: string
+        - in: path
+          name: member_id
+          description: "member id"
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: "#/definitions/MemberShell"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/MemberShell'
+          description: OK
+      security:
+        - X-Auth-Token: []
+    delete:
+      tags:
+        - poolMembers
+      summary: ""
+      description: ""
+      parameters:
+        - name: pool_id
+          in: path
+          description: ""
+          required: true
+          type: string
+        - name: member_id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+      security:
+        - X-Auth-Token: []
+    get:
+      summary: ""
+      description: ""
+      tags:
+              - poolMembers
+      parameters:
+        - name: pool_id
+          in: path
+          required: true
+          type: string
+        - name: member_id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/MemberShell'
+      security:
+        - X-Auth-Token: []
+  /lbaas/health_monitors:
+    get:
+      summary: ""
+      description: ""
+      tags:
+              - healthmonitors
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/HealthMonitors'
+      security:
+        - X-Auth-Token: []
+    post:
+      tags:
+        - healthmonitors
+      description: post healthmonitors
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: body
+          description: poolMembers to post
+          required: false
+          schema:
+            $ref: "#/definitions/HealthMonitorShell"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/HealthMonitorShell'
+      security:
+        - X-Auth-Token: []
+  /lbaas/health_monitors/{health_monitor_id}:
+    put:
+      summary: update
+      description:  update
+      tags:
+        - healthmonitors
+      parameters:
+        - name: health_monitor_id
+          in: path
+          description: ""
+          required: true
+          type: string
+        - in: body
+          name: body
+          description:   to post
+          required: false
+          schema:
+            $ref: "#/definitions/HealthMonitorShell"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/HealthMonitorShell'
+          description: OK
+      security:
+        - X-Auth-Token: []
+    delete:
+      tags:
+        - healthmonitors
+      summary: ""
+      description: ""
+      parameters:
+        - name: health_monitor_id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+      security:
+        - X-Auth-Token: []
+    get:
+      summary: ""
+      description: ""
+      tags:
+              - healthmonitors
+      parameters:
+        - name: health_monitor_id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/HealthMonitorShell'
+      security:
+        - X-Auth-Token: []
+securityDefinitions:
+  X-Auth-Token:
+    type: apiKey
+    name: X-Auth-Token
+    in: header
+
+definitions:
+  HealthMonitorShell:
+    properties:
+      health_monitor:
+        $ref: '#/definitions/HealthMonitor'
+
+  HealthMonitors:
+    properties:
+      health_monitors:
+        type: array
+        items:
+          $ref: '#/definitions/HealthMonitor'
+  MemberShell:
+    properties:
+      member:
+        $ref: '#/definitions/Member'
+  Members:
+    properties:
+      members:
+        type: array
+        items:
+          $ref: '#/definitions/Member'
+
+  LoadBalancersShell:
+    properties:
+      loadbalancers:
+        $ref:  '#/definitions/LoadBalancers'
+  LoadBalancers:
+    type: array
+    items:
+      $ref: '#/definitions/LoadBalancer'
+  LoadBalancerShell:
+    properties:
+      loadbalancer:
+         $ref: '#/definitions/LoadBalancer'
+  LoadBalancer:
+    properties:
+      id:
+        type: string
+        description: The ID of the load balancer.
+      name:
+        type: string
+        description: Human-readable name of the resource.
+      admin_state_up:
+        type: boolean
+        description: The administrative state of the resource, which is up (true) or down (false).
+      description:
+        type: string
+        description: A human-readable description for the resource.
+      flavor:
+        type: string
+        description: The ID of the flavor.
+      project_id:
+        type: string
+        description: The ID of the project.
+      provider:
+        type: string
+        description:    Provider name of the load balancer service.
+      tenant_id:
+        type: string
+        description: The ID of the project.
+      vip_address:
+        type: string
+        description: The IP address of the VIP .
+      vip_subnet_id:
+        type: string
+        description: The ID of the subnet on which to allocate the virtual IP (VIP) address. This option is required if no vip_network_id is given.
+      vip_network_id:
+        type: string
+      listeners:
+        type: array
+        description: The associated listeners, if any.
+        items:
+          title: Listeners
+          $ref: '#/definitions/Listener'
+      operating_status:
+        type: string
+        description: The operating status of the load balancer. This value is ONLINE or OFFLINE.
+      provisioning_status:
+        type: string
+        description: The provisioning status of the load balancer. This value is ACTIVE, PENDING_CREATE or ERROR.
+      pools:
+        type: array
+        description: A list of pool objects.
+        items:
+          title: Pools
+          $ref: '#/definitions/Pool'
+
+  Listeners:
+    properties:
+      listeners:
+        type: array
+        items:
+          $ref: '#/definitions/Listener'
+  ListenerShell:
+    properties:
+      listener:
+        $ref: '#/definitions/Listener'
+  Listener:
+    properties:
+      id:
+        type: string
+        description: The ID of the listener.
+      admin_state_up:
+        type: boolean
+        description: The administrative state of the resource, which is up (true) or down (false).
+      connection_limit:
+        type: integer
+        description: The maximum number of connections allowed for the VIP. Value is -1 if the limit is not set. Default is infinite.
+      default_pool_id:
+        type: string
+        description: The ID of default pool. Must have compatible protocol with listener.
+      default_tls_container_ref:
+        type: string
+        description: A reference to a container of TLS secrets.
+      description:
+        type: string
+        description: A human-readable description for the resource.
+      loadbalancer_id:
+        type: string
+      name:
+        type: string
+        description: Human-readable name of the resource.
+      project_id:
+        type: string
+        description: The ID of the project.
+      protocol:
+        type: string
+        description: The IP protocol. Valid value is icmp, tcp, udp, or null. No default.
+      protocol_port:
+        type: integer
+        description: The TCP or UDP port on which to listen.
+      sni_container_refs:
+        type: array
+        description: A list of references to TLS secrets.
+        items:
+          type: string
+          title: sni_container_ref
+      tenant_id:
+        type: string
+        description: The ID of the project.
+      loadbalancers:
+        type: array
+        title: loadbalancers
+        description: A list of load balancer objects.
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+
+
+  Pools:
+    properties:
+      pools:
+        type: array
+        items:
+          $ref: '#/definitions/Pool'
+  PoolShell:
+    properties:
+      pool:
+        $ref: '#/definitions/Pool'
+  Pool:
+    properties:
+      id:
+        type: string
+        description: The ID of the pool.
+      admin_state_up:
+        type: string
+        description: The administrative state of the resource, which is up (true) or down (false).
+      description:
+        type: string
+        description: A human-readable description for the resource.
+      lb_algorithm:
+        type: string
+        description: The load-balancer algorithm, which is round-robin (ROUND_ROBIN), least-connections (LEAST_CONNECTIONS), source IP (SOURCE_IP), and so on, that is used to distribute traffic to the pool members. This value, which must be supported, is dependent on the load-balancer provider. The round-robin algorithm must be supported.
+      listener_id:
+        type: string
+      name:
+        type: string
+        description: Human-readable name of the resource.
+      project_id:
+        type: string
+        description: The ID of the project.
+      protocol:
+        type: string
+        description: The IP protocol. Valid value is icmp, tcp, udp, or null. No default.
+      subnet_id:
+        type: string
+        description: The subnet on which the members of the pool will be located.
+      tenant_id:
+        type: string
+        description: The ID of the project.
+      health_monitors:
+        type: array
+        description: List of health monitors that are associated with the pool.
+        items:
+          title: HealthMonitors
+          $ref: '#/definitions/HealthMonitor'
+      health_monitors_status:
+        type: string
+        description: The statuses of the health monitors that are associated with the pool.
+      members:
+        type: array
+        description: The list of members that belong to the pool.
+        items:
+          $ref: '#/definitions/Member'
+          description: Members
+      status:
+        type: string
+        description: The status of the pool. Indicates whether the pool is operational.
+      status_description:
+        type: string
+        description: Human-readable description of the status.
+      provider:
+        type: string
+        description: Provider name of the load balancer service.
+      # vip_id:
+      #   type: string
+      #   description: The ID of the virtual IP (VIP) address.
+
+  HealthMonitor:
+    properties:
+      id:
+        type: string
+        description: The ID of the associated health monitor.
+      admin_state_up:
+        type: boolean
+        description: The administrative state of the resource, which is up (true) or down (false).
+      delay:
+        type: integer
+        description: The time, in seconds, between sending probes to members.
+      expected_codes:
+        type: string
+        description: The list of HTTP status codes expected in response from the member to declare it healthy. Specify one of the following values. A single value, such as 200; A list, such as 200, 202; A range, such as 200-204. The default is 200.
+      http_method:
+        type: string
+        description: The HTTP method that the monitor uses for requests.
+      max_retries:
+        type: string
+        description: The number of allowed connection failures before changing the status of the member to INACTIVE. A valid value is from 1 to 10.
+      # pool_id:
+      #   type: string
+      project_id:
+        type: string
+        description: The ID of the project.
+      tenant_id:
+        type: string
+        description: The ID of the project.
+      timeout:
+        type: integer
+        description: The maximum time, in seconds, that a monitor waits to connect before it times out. This value must be less than the delay value.
+      type:
+        type: string
+        description: The type of probe sent by the load balancer to verify the member state. A valid value is PING, TCP, HTTP, or HTTPS.
+      url_path:
+        type: string
+        description: The HTTP path of the request sent by the monitor to test the health of a member. Must be a string that begins with a forward slash (/). The default is /.
+      pools:
+        type: array
+        description: List of pools that are associated with the health monitor.
+        items:
+          title: pool
+          type: object
+          properties:
+            pool_id:
+              type: string
+            status_description:
+              type: string
+            status:
+              type: string
+
+
+  Member:
+    properties:
+      id:
+        type: string
+        description: The ID of the member.
+      pool_id:
+        type: string
+        description: The ID for the pool.
+      address:
+        type: string
+        description: The IP address of the member.
+      admin_state_up:
+        type: boolean
+        description: The administrative state of the resource, which is up (true) or down (false).
+      project_id:
+        type: string
+        description: The ID of the project.
+      protocol_port:
+        type: integer
+        description: The TCP or UDP port on which to listen.
+      subnet_id:
+        type: string
+        description: The subnet on which the members of the pool will be located.
+      tenant_id:
+        type: string
+        description: The ID of the project.
+      weight:
+        type: string
+        description: The weight of a member determines the portion of requests or connections it services compared to the other members of the pool. For example, a member with a weight of 10 receives five times as much traffic as a member with a weight of 2. A value of 0 means the member does not participate in load- balancing but still accepts persistent connections. A valid value is from 0 to 256.
+

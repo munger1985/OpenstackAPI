@@ -1,0 +1,303 @@
+# Example YAML to get you started quickly.
+# Be aware that YAML has indentation based scoping.
+# Code completion support is available so start typing for available options.
+swagger: '2.0'
+
+# This is your document metadata
+info:
+  version: "0.0.1"
+  title: SecurityGroup
+  description: SDN-Hub Neutron SecurityGroup model
+host: 192.168.8.226:9696
+basePath: /v2.0
+# Describe your paths here
+paths:
+  # This is a path endpoint. Change it.
+  /security-group-rules:
+    get:
+      # Describe this verb here. Note: you can use markdown
+      tags:
+        - security-group-rules
+      description:
+        A `security-group-rules` is a logical entity for forwarding packets across internal subnets and NATting them on external networks through an appropriate external gateway.
+      # This is array of GET operation parameters:
+      parameters:
+        # An example parameter that is in query and is required
+        - name: fields
+          in: query
+          description: fields say, id name,the attributes to show
+          required: false
+          type: string
+          format: string
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description: Successful response
+          # A schema describing your response object.
+          # Use JSON Schema format
+          schema:
+              $ref: '#/definitions/SecurityGroupRules'
+      security:
+                - X-Auth-Token: []
+
+    post:
+      tags:
+        - security-group-rules
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: body
+          description: security_group_rule to post
+          required: false
+          schema:
+            $ref: "#/definitions/SecurityGroupRuleShell"
+      responses:
+          200:
+              description: Make a new security_group_rule
+              schema:
+                $ref: '#/definitions/SecurityGroupRuleShell'
+      security:
+          - X-Auth-Token: []
+  /security-group-rules/{id}:
+    get:
+      tags:
+        - security-group-rules
+      parameters:
+        - name: id
+          in: path
+          type: string
+          description: ID of the routerId
+          required: true
+
+      responses:
+        200:
+          description: Sends the routerId with routerId
+          schema:
+            $ref: '#/definitions/SecurityGroupRuleShell'
+      security:
+              - X-Auth-Token: []
+
+    delete:
+      tags:
+        - security-group-rules
+      summary: Deletes a router
+      description: ""
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: path
+          name: id
+          description: router id to delete
+          required: true
+          type: string
+      responses:
+        "200":
+          description: delete router
+      security:
+              - X-Auth-Token: []
+  /security-groups:
+    get:
+      # Describe this verb here. Note: you can use markdown
+      tags:
+        - security-groups
+      description:
+        A `security_groups` is a logical entity for forwarding packets across internal subnets and NATting them on external networks through an appropriate external gateway.
+      # This is array of GET operation parameters:
+      parameters:
+        # An example parameter that is in query and is required
+        - name: fields
+          in: query
+          description: fields say, id name,the attributes to show
+          required: false
+          type: string
+          format: string
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description: Successful response
+          # A schema describing your response object.
+          # Use JSON Schema format
+          schema:
+              $ref: '#/definitions/SecurityGroups'
+      security:
+                - X-Auth-Token: []
+
+    post:
+      tags:
+        - security-groups
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: body
+          description: QosPolicies to post
+          required: false
+          schema:
+            $ref: "#/definitions/SecurityGroupShell"
+      responses:
+          200:
+              description: Make a new SecurityGroupShell
+              schema:
+                  $ref: '#/definitions/SecurityGroupShell'
+      security:
+          - X-Auth-Token: []
+
+  /security-groups/{id}:
+    get:
+      tags:
+        - security-groups
+      parameters:
+        - name: id
+          in: path
+          type: string
+          description: ID of the routerId
+          required: true
+
+      responses:
+        200:
+          description: Sends the routerId with routerId
+          schema:
+            $ref: '#/definitions/SecurityGroupShell'
+      security:
+        - X-Auth-Token: []
+    delete:
+      tags:
+        - security-groups
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: path
+          name: id
+          description: security-groups id to delete
+          required: true
+          type: string
+      responses:
+        "200":
+          description: security-groups
+      security:
+              - X-Auth-Token: []
+    put:
+      tags:
+        - security-groups
+      parameters:
+        - name: body
+          in: body
+          description: The router JSON you want to put
+          schema:
+            $ref: '#/definitions/SecurityGroupShell'
+          required: true
+        - in: path
+          name: id
+          description: SecurityGroupShell id to put
+          required: true
+          type: string
+      responses:
+        200:
+          description: Updates the SecurityGroupShell
+          schema:
+            $ref: '#/definitions/SecurityGroupShell'
+      security:
+              - X-Auth-Token: []
+
+securityDefinitions:
+  X-Auth-Token:
+    type: apiKey
+    name: X-Auth-Token
+    in: header
+
+definitions:
+  SecurityGroupShell:
+    properties:
+      security_group:
+        $ref: '#/definitions/security_group'
+  SecurityGroupRuleShell:
+      properties:
+        security_group_rule:
+          $ref: '#/definitions/security_group_rule'
+  SecurityGroups:
+    properties:
+      security_groups:
+        type: array
+        items:
+          $ref: '#/definitions/security_group'
+  SecurityGroupRules:
+      properties:
+        security_group_rules:
+          type: array
+          items:
+            $ref: '#/definitions/security_group_rule'
+  security_group:
+    properties:
+      id:
+        type: string
+        description: id of the security group
+      name:
+        type: string
+        description: name of the security group
+      security_group_rules:
+        type: array
+        description: specific rules
+        items:
+          $ref: '#/definitions/security_group_rule'
+
+      description:
+        type: string
+        description: description of the security group
+      tenant_id:
+       type: string
+       description: The ID of the project.
+      project_id:
+        type: string
+        description: The ID of the project
+
+  security_group_rule:
+    properties:
+      remote_group_id:
+        type: string
+        description: id of the remote group
+      direction:
+        type: string
+        description: ingress/egress
+      protocol:
+        type: string
+        description:  icmp, tcp, udp, or null
+      ethertype :
+        type: string
+        description: Must be IPv4 or IPv6, and addresses represented in CIDR must match the ingress or egress rules.
+      port_range_max:
+        type: integer
+        description: The maximum port number in the range that is matched by the security group rule. The port_range_min attribute constrains the port_range_max attribute. If the protocol is ICMP, this value must be an ICMP type
+      security_group_id:
+        type: string
+        description: The security group ID to associate with this security group rule.
+      tenant_id:
+        type: string
+        description: The ID of the project.
+      project_id :
+        type: string
+        description: The ID of the project.
+      port_range_min :
+        type: integer
+        description: The minimum port number in the range that is matched by the security group rule. If the protocol is TCP or UDP, this value must be less than or equal to the port_range_max attribute value. If the protocol is ICMP, this value must be an ICMP type.
+      remote_ip_prefix:
+        type: string
+        description: The remote IP prefix to associate with this metering rule packet.
+      id :
+        type: string
+        description: The ID of the security group rule
+      description :
+        type: string
+        description: A human-readable description for the resource.

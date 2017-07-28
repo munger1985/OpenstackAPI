@@ -1,0 +1,316 @@
+# SDN-Hub Router
+swagger: '2.0'
+# create_at: 2017-3-28
+# author: diroguan
+info:
+  version: "0.0.1"
+  title: Router
+  description: SDN-Hub Neutron Network model, Router Model
+# Describe your paths here
+host: 192.168.8.226:9696
+basePath: /v2.0
+produces:
+  - application/json
+consumes:
+  - application/json
+  - application/xml
+schemes:
+  - http
+paths:
+  # This is a path endpoint. Change it.
+  /routers:
+    # This is a HTTP operation
+    get:
+      # Describe this verb here. Note: you can use markdown
+      tags:
+        - routers
+      description:
+        A `router` is a logical entity for forwarding packets across internal subnets and NATting them on external networks through an appropriate external gateway.
+      # This is array of GET operation parameters:
+      parameters:
+        # An example parameter that is in query and is required
+        - name: fields
+          in: query
+          description: fields say, id name,the attributes to show
+          required: false
+          type: string
+          format: string
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description: Successful response
+          # A schema describing your response object.
+          # Use JSON Schema format
+          schema:
+              $ref: '#/definitions/Routers'
+      security:
+                - X-Auth-Token: []
+
+    post:
+      tags:
+        - routers
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: body
+          description: QosPolicies to post
+          required: false
+          schema:
+            $ref: "#/definitions/RouterShell"
+      responses:
+          200:
+              description: Make a new router
+              schema:
+                          $ref: '#/definitions/RouterShell'
+      security:
+          - X-Auth-Token: []
+
+  /routers/{routerId}:
+    get:
+      tags:
+        - routers
+      parameters:
+        - name: routerId
+          in: path
+          type: string
+          description: ID of the routerId
+          required: true
+
+      responses:
+        200:
+          description: Sends the routerId with routerId
+          schema:
+            $ref: '#/definitions/RouterShell'
+      security:
+              - X-Auth-Token: []
+
+    delete:
+      tags:
+        - routers
+      summary: Deletes a router
+      description: ""
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: path
+          name: routerId
+          description: router id to delete
+          required: true
+          type: string
+      responses:
+        "200":
+          description: delete router
+      security:
+              - X-Auth-Token: []
+    put:
+      tags:
+        - routers
+      parameters:
+        - name: body
+          in: body
+          description: The router JSON you want to put
+          schema:
+            $ref: '#/definitions/RouterShell'
+          required: true
+        - in: path
+          name: routerId
+          description: router id to put
+          required: true
+          type: string
+      responses:
+        200:
+          description: Updates the Router
+      security:
+              - X-Auth-Token: []
+
+  /routers/{router_id}/add_router_interface:
+    put:
+      tags:
+        - router interface
+      parameters:
+        - in: path
+          name: router_id
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: router interface info
+          required: true
+          schema:
+            $ref: "#/definitions/RouterInterface"
+      responses:
+        200:
+          description: Updates the Router
+          schema:
+             $ref: '#/definitions/RouterIfResponse'
+      security:
+              - X-Auth-Token: []
+  /routers/{router_id}/remove_router_interface:
+    put:
+      tags:
+        - router interface
+      parameters:
+        - in: path
+          name: router_id
+          description: router id to put
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: router interface info
+          required: true
+          schema:
+            $ref: "#/definitions/RouterInterface"
+      responses:
+        200:
+          description: remove_router_interface of  the Router
+          schema:
+            $ref: '#/definitions/RouterIfResponse'
+      security:
+              - X-Auth-Token: []
+securityDefinitions:
+  X-Auth-Token:
+    type: apiKey
+    name: X-Auth-Token
+    in: header
+
+
+definitions:
+  RouterShell:
+    properties:
+      router:
+        $ref: '#/definitions/Router'
+
+
+  RouterIfResponse:
+    properties:
+      id:
+        type: string
+      network_id:
+        type: string
+      port_id:
+        type: string
+      subnet_id:
+         type: string
+      subnet_ids:
+        type: array
+        items:
+          type: string
+      project_id:
+        type: string
+      tenant_id:
+        type: string
+
+  Routers:
+    properties:
+      routers:
+        type: array
+        items:
+          $ref: '#/definitions/Router'
+  Router:
+    properties:
+      id:
+        type: string
+        description: The UUID of the router.
+      name:
+        type: string
+        description: Human-readable name of the resource.
+      gw_port_id:
+        type: string
+      description:
+        type: string
+        description: A human-readable description for the resource.
+      tenant_id:
+        type: string
+        description: The ID of the project.
+      status:
+        type: string
+        description: The router status.
+      project_id:
+        type: string
+        description: The ID of the project.
+      admin_state_up:
+        type: boolean
+        description: The administrative state of the resource, which is up (true) or down (false).
+      external_gateway_info:
+        type: object
+        description: The external gateway information of the router. If the router has an external gateway, this would be a dict with network_id, enable_snat and external_fixed_ips. Otherwise, this would be null.
+        $ref: '#/definitions/ExternalGatewayInfo'
+      routes:
+        type: array
+        description: The extra routes configuration for L3 router. A list of dictionaries with destination and nexthop parameters. It is available when `extraroute` extension is enabled.
+        items:
+          type: object
+          title: route
+          properties:
+            destination:
+              type: string
+            nexthop:
+              type: string
+
+      distributed:
+        type: boolean
+        description: true indicates a distributed router. It is available when dvr extension is enabled.
+      ha:
+        type: boolean
+        description: true indicates a highly-available router. It is available when l3-ha extension is enabled.
+      availability_zone_hints:
+        type: array
+        items:
+          type: string
+      availability_zones:
+        type: array
+        items:
+          type: string
+
+  ExternalGatewayInfo:
+    type: object
+    description: The external gateway information of the router. If the router has an external gateway, this would be a dict with network_id, enable_snat and external_fixed_ips. Otherwise, this would be null.
+    properties:
+      network_id:
+        type: string
+        description: Network ID which the router gateway is connected to.
+      enable_snat:
+        type: boolean
+        description: Enable Source NAT (SNAT) attribute. true means Network Address Translation (NAT) is enabled for traffic generated by subnets attached to the router when the traffic is sent to/received from the external network. false means no NAT is applied for traffic from/to the external network. It is available when ext-gw-mode extension is enabled.
+      external_fixed_ips:
+        type: array
+        items:
+          type: object
+          properties:
+            ip_address:
+              type: string
+            subnet_id:
+              type: string
+
+  RouteEntry:
+    type: object
+    properties:
+      id:
+        type: string
+      router_id:
+        type: string
+      destination:
+        type: string
+      nexthop:
+        type: string
+      nexthop_type:
+        type: string
+        description: Local/sslvpn/ipsecvpn/mgtgw/commnnfv…
+
+  RouterInterface:
+    properties:
+      subnet_id:
+        type: string
+        description: The ID of the subnet. One of subnet_id or port_id must be specified.
+      port_id:
+        type: string
+        description: The ID of the port. One of subnet_id or port_id must be specified.
+

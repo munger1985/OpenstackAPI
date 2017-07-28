@@ -1,0 +1,253 @@
+# SDN-Hub Port
+swagger: '2.0'
+# created_at 2017-03-28
+# author: diroguan
+info:
+  version: "0.0.1"
+  title: Neutron Port
+  description: SDN-Hub Neutron Network Model, Port Model
+# paths information
+
+host: 192.168.8.226:9696
+basePath: /v2.0
+produces:
+  - application/json
+consumes:
+  - application/json
+  - application/xml
+schemes:
+  - http
+paths:
+  /ports:
+        get:
+          tags:
+            - ports
+          description:
+            return a array of ports information
+          parameters:
+            - name: fields
+              in: query
+              type: string
+              description:  The fields that you want the server to return. If no `fields` query parameter is specified, the networking API returns all attributes allowed by the policy settings. By using `fields` parameter, the API returns only the requested set of attributes. `fields` parameter can be specified multiple times. For example, if you specify `fields=id&fields=name` in the request URL, only `id` and `name` attributes will be returned.
+            - name: OS_ID
+              in: header
+              type: string
+            - name: AZ_ID
+              in: header
+              type: string
+          responses:
+            200:
+              description: Successful response
+              schema:
+                $ref: '#/definitions/Ports'
+          security:
+            - X-Auth-Token: []
+        post:
+          tags:
+            - ports
+          description: post PortShell
+          consumes:
+            - application/json
+            - application/xml
+          produces:
+            - application/json
+            - application/xml
+          parameters:
+            - in: body
+              name: body
+              description: PortShell to post
+              required: false
+              schema:
+                $ref: "#/definitions/PortShell"
+          responses:
+            200:
+              description: OK
+              schema:
+                $ref: '#/definitions/PortShell'
+          security:
+            - X-Auth-Token: []
+  /ports/{id}:
+        put:
+          summary: update
+          description:  update
+          tags:
+            - ports
+          parameters:
+            - name: id
+              in: path
+              description: ""
+              required: true
+              type: string
+            - in: body
+              name: body
+              required: false
+              schema:
+                $ref: "#/definitions/PortShell"
+          responses:
+            200:
+              schema:
+                $ref: '#/definitions/PortShell'
+              description: OK
+          security:
+            - X-Auth-Token: []
+        delete:
+          tags:
+            - ports
+          summary: ""
+          description: ""
+          parameters:
+            - name: id
+              in: path
+              description: ""
+              required: true
+              type: string
+          responses:
+            200:
+              description: OK
+              schema:
+                $ref: '#/definitions/PortShell'
+          security:
+            - X-Auth-Token: []
+        get:
+          summary: ""
+          description: ""
+          tags:
+                  - ports
+          parameters:
+            - name: id
+              in: path
+              description: ""
+              required: true
+              type: string
+          responses:
+            200:
+              description: OK
+              schema:
+                $ref: '#/definitions/PortShell'
+          security:
+            - X-Auth-Token: []
+securityDefinitions:
+  X-Auth-Token:
+    type: apiKey
+    name: X-Auth-Token
+    in: header
+definitions:
+  Ports:
+    properties:
+      ports:
+        type: array
+        items:
+          $ref:  '#/definitions/Port'
+         
+  PortShell:
+    properties:
+      port:
+        $ref: '#/definitions/Port'
+  Port:
+    properties:
+      id:
+        type: string
+        description: The ID of the resource.
+      name:
+        type: string
+        description:    Human-readable name of the resource.
+      admin_state_up:
+        type: boolean
+        description: The administrative state of the resource, which is up (true) or down (false).
+      allowed_address_pairs:
+        type: array
+        items:
+          $ref: '#/definitions/AllowedAddressPairs'
+      binding:host_id:
+        type: string
+        description: The ID of the host where the port resides.
+      binding:profile:
+        type: object
+        description: A dictionary that enables the application running on the specific host to pass and receive vif port information specific to the networking back-end. The networking API does not define a specific format of this field.
+      binding:vif_details:
+        type: object
+        properties:
+          port_filter:
+            type: string
+            description: port_filter is a boolean indicating the networking service provides port filtering features such as security group and/or anti MAC/IP spoofing.
+          ovs_hybrid_plug:
+            type: string
+            description: ovs_hybrid_plug is a boolean used to inform an API consumer like nova that the hybrid plugging strategy for OVS should be used.
+      binding:vif_type:
+        type: string
+        description:    The type of which mechanism is used for the port. An API consumer like nova can use this to determine an appropriate way to attach a device (for example an interface of a virtual server) to the port. Available values currently defined includes ovs, bridge, macvtap, hw_veb, hostdev_physical, vhostuser, distributed and other. There are also special values, unbound and binding_failed. unbound means the port is not bound to a networking back-end. binding_failed means an error that the port failed to be bound to a networking back-end.
+      binding:vnic_type:
+        type: string
+        description: The type of vNIC which this port should be attached to. This is used to determine which mechanism driver(s) to be used to bind the port. The valid values are normal, macvtap, direct, baremetal, and direct-physical. What type of vNIC is actually available depends on deployments.
+
+      created_at:
+        type: string
+        description: Time at which port has been created.
+      description:
+        type: string
+        description:    A human-readable description for the resource.
+      data_plane_status:
+        type: string
+        description: Status of the underlying data plane of a port.
+      device_id:
+        type: string
+        description: The ID of the device that uses this port. For example, a server instance or a logical router.
+      device_owner:
+        type: string
+        description: The entity type that uses this port. For example, compute:nova (server instance), network:dhcp (DHCP agent) or network:router_interface (router interface).
+      extra_dhcp_opts:
+        type: array
+        description: A set of zero or more extra DHCP option pairs. An option pair consists of an option value and name.
+        items:
+          type: object
+      fixed_ips:
+        type: array
+        description: The IP addresses for the port. If the port has multiple IP addresses, this field has multiple entries. Each entry consists of IP address (ip_address) and the subnet ID from which the IP address is assigned (subnet_id).
+        items:
+          $ref: '#/definitions/FixedIPs'
+      mac_address:
+        type: string
+        description: The MAC address of the port.
+      network_id:
+        type: string
+        description: The ID of the attached network.
+      port_security_enabled:
+        type: boolean
+        description: The port security status. A valid value is enabled (true) or disabled (false). If port security is enabled for the port, security group rules and anti-spoofing rules are applied to the traffic on the port. If disabled, no such rules are applied.
+      project_id:
+        type: string
+        description: The ID of the project.
+      security_groups:
+        type: array
+        description: The IDs of security groups applied to the port.
+        items:
+          title: security_group_id
+          type: string
+      status:
+        type: string
+        description: The port status. Values are ACTIVE, DOWN, BUILD and ERROR.
+      tenant_id:
+        type: string
+        description: The ID of the project.
+      updated_at:
+        type: string
+        description: Time at which port has been updated.
+
+
+  AllowedAddressPairs:
+    description: A set of zero or more allowed address pairs. A server connected to the port can send a packet with source address which matches one of the specified allowed address pairs.
+    properties:
+      ip_address:
+        type: string
+        description: IP address or CIDR.
+      mac_address:
+        type: string
+        description: MAC address
+  FixedIPs:
+    description: The IP addresses for the port. If the port has multiple IP addresses, this field has multiple entries. Each entry consists of IP address (ip_address) and the subnet ID from which the IP address is assigned (subnet_id).
+    properties:
+      ip_address:
+        type: string
+      subnet_id:
+        type: string
+

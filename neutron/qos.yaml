@@ -1,0 +1,540 @@
+# Neutron Firewall
+swagger: '2.0'
+
+# This is your document metadata
+info:
+  version: "0.0.1"
+  title: QOS
+  description: SDN-Hub Neutron QOS policy, Bandwidth limit rule, Dscp marking rule
+host: 192.168.8.226:9696
+basePath: /v2.0
+produces:
+  - application/json
+consumes:
+  - application/json
+  - application/xml
+schemes:
+  - http
+paths:
+  # This is a path endpoint. Change it.
+  /qos/rule-types:
+    get:
+              tags:
+                - qosRuleTypes
+              description:
+                return a array of QosRuleTypes information
+              parameters:
+                - name: fields
+                  in: query
+                  type: string
+                  description:  The fields that you want the server to return. If no `fields` query parameter is specified, the networking API returns all attributes allowed by the policy settings. By using `fields` parameter, the API returns only the requested set of attributes. `fields` parameter can be specified multiple times. For example, if you specify `fields=id&fields=name` in the request URL, only `id` and `name` attributes will be returned.
+              responses:
+                200:
+                  description: Successful response
+                  schema:
+                    $ref: '#/definitions/QosRuleTypes'
+              security:
+                - X-Auth-Token: []
+
+  /qos/policies:
+    get:
+        tags:
+          - qosPolicies
+        description:
+          return a array of QosRuleTypes information
+        parameters:
+          - name: fields
+            in: query
+            type: string
+            description:  The fields that you want the server to return. If no `fields` query parameter is specified, the networking API returns all attributes allowed by the policy settings. By using `fields` parameter, the API returns only the requested set of attributes. `fields` parameter can be specified multiple times. For example, if you specify `fields=id&fields=name` in the request URL, only `id` and `name` attributes will be returned.
+        responses:
+          200:
+            description: Successful response
+            schema:
+              $ref: '#/definitions/QosPolicies'
+        security:
+          - X-Auth-Token: []
+    post:
+        tags:
+          - qosPolicies
+        description: post qosPolicies
+        consumes:
+          - application/json
+          - application/xml
+        produces:
+          - application/json
+          - application/xml
+        parameters:
+          - in: body
+            name: body
+            description: QosPolicies to post
+            required: false
+            schema:
+              $ref: "#/definitions/QosPolicyShell"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: '#/definitions/QosPolicyShell'
+        security:
+          - X-Auth-Token: []
+  /qos/policies/{id}:
+    put:
+        summary: update
+        description:  update
+        tags:
+          - qosPolicies
+        parameters:
+          - name: id
+            in: path
+            description: ""
+            required: true
+            type: string
+          - in: body
+            name: body
+            required: false
+            schema:
+              $ref: "#/definitions/QosPolicyShell"
+        responses:
+          200:
+            schema:
+              $ref: '#/definitions/QosPolicyShell'
+            description: OK
+        security:
+          - X-Auth-Token: []
+    delete:
+        tags:
+          - qosPolicies
+        summary: ""
+        description: ""
+        parameters:
+          - name: id
+            in: path
+            description: ""
+            required: true
+            type: string
+        responses:
+          200:
+            description: OK
+
+        security:
+          - X-Auth-Token: []
+    get:
+        summary: ""
+        description: ""
+        tags:
+                - qosPolicies
+        parameters:
+          - name: id
+            in: path
+            description: ""
+            required: true
+            type: string
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: '#/definitions/QosPolicyShell'
+        security:
+          - X-Auth-Token: []
+
+  /qos/policies/{policy_id}/bandwidth_limit_rules:
+    get:
+        tags:
+          - bandwidth_limit_rules
+        description:
+           return a array of bandwidth_limit_rules information
+        parameters:
+          - name: fields
+            in: query
+            type: string
+            description:  The fields that you want the server to return. If no `fields` query parameter is specified, the networking API returns all attributes allowed by the policy settings. By using `fields` parameter, the API returns only the requested set of attributes. `fields` parameter can be specified multiple times. For example, if you specify `fields=id&fields=name` in the request URL, only `id` and `name` attributes will be returned.
+          - name: policy_id
+            in: path
+            type: string
+            required: true
+            description: bandwidth_limit_rules to get
+        responses:
+          200:
+            description: Successful response
+            schema:
+              $ref: '#/definitions/BwLimitRules'
+        security:
+          - X-Auth-Token: []
+
+    post:
+        tags:
+          - bandwidth_limit_rules
+        description: post bandwidth_limit_rules
+        consumes:
+          - application/json
+          - application/xml
+        produces:
+          - application/json
+          - application/xml
+        parameters:
+          - in: path
+            name: policy_id
+            type: string
+            required: true
+          - in: body
+            name: body
+            description: QosPolicies to post
+            required: false
+            schema:
+              $ref: "#/definitions/BwLimitRuleShell"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: '#/definitions/BwLimitRuleShell'
+        security:
+          - X-Auth-Token: []
+
+
+  /qos/policies/{policy_id}/bandwidth_limit_rules/{id}:
+      put:
+            summary: update
+            description:  update
+            tags:
+              - bandwidth_limit_rules
+            parameters:
+              - name: id
+                in: path
+                required: true
+                type: string
+              - name: policy_id
+                in: path
+                required: true
+                type: string
+              - in: body
+                name: body
+                description: network to post
+                required: false
+                schema:
+                  $ref: "#/definitions/BwLimitRuleShell"
+            responses:
+              200:
+                schema:
+                  $ref: '#/definitions/BwLimitRuleShell'
+                description: OK
+            security:
+              - X-Auth-Token: []
+      delete:
+        tags:
+          - bandwidth_limit_rules
+        summary: ""
+        description: ""
+        parameters:
+          - name: id
+            in: path
+            required: true
+            type: string
+          - name: policy_id
+            in: path
+            required: true
+            type: string
+        responses:
+          200:
+            description: OK
+        security:
+          - X-Auth-Token: []
+      get:
+        summary: ""
+        description: ""
+        tags:
+                - bandwidth_limit_rules
+        parameters:
+          - name: id
+            in: path
+            required: true
+            type: string
+          - name: policy_id
+            in: path
+            required: true
+            type: string
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: '#/definitions/BwLimitRuleShell'
+        security:
+          - X-Auth-Token: []
+
+
+
+  /qos/policies/{policy_id}/dscp_marking_rules:
+      get:
+            tags:
+              - dscp_marking_rules
+            description:
+               return a array of bandwidth_limit_rules information
+            parameters:
+              - name: fields
+                in: query
+                type: string
+                description:  The fields that you want the server to return. If no `fields` query parameter is specified, the networking API returns all attributes allowed by the policy settings. By using `fields` parameter, the API returns only the requested set of attributes. `fields` parameter can be specified multiple times. For example, if you specify `fields=id&fields=name` in the request URL, only `id` and `name` attributes will be returned.
+              - name: policy_id
+                in: path
+                type: string
+                required: true
+                description: bandwidth_limit_rules to get
+            responses:
+              200:
+                description: Successful response
+                schema:
+                  $ref: '#/definitions/DscpMarkingRules'
+            security:
+              - X-Auth-Token: []
+
+      post:
+          tags:
+            - dscp_marking_rules
+          description: post bandwidth_limit_rules
+          consumes:
+            - application/json
+            - application/xml
+          produces:
+            - application/json
+            - application/xml
+          parameters:
+            - in: path
+              name: policy_id
+              type: string
+              required: true
+            - in: body
+              name: body
+              description: QosPolicies to post
+              required: false
+              schema:
+                $ref: "#/definitions/DscpMarkingRuleShell"
+          responses:
+            200:
+              description: OK
+              schema:
+                $ref: '#/definitions/DscpMarkingRuleShell'
+          security:
+            - X-Auth-Token: []
+  /qos/policies/{policy_id}/dscp_marking_rules/{id}:
+      put:
+            summary: update
+            description:  update
+            tags:
+              - dscp_marking_rules
+            parameters:
+              - name: id
+                in: path
+                required: true
+                type: string
+              - name: policy_id
+                in: path
+                required: true
+                type: string
+              - in: body
+                name: body
+                description: network to post
+                required: false
+                schema:
+                  $ref: "#/definitions/DscpMarkingRuleShell"
+            responses:
+              200:
+                schema:
+                  $ref: '#/definitions/DscpMarkingRuleShell'
+                description: OK
+            security:
+              - X-Auth-Token: []
+      delete:
+        tags:
+          - dscp_marking_rules
+        summary: ""
+        description: ""
+        parameters:
+          - name: id
+            in: path
+            required: true
+            type: string
+          - name: policy_id
+            in: path
+            required: true
+            type: string
+        responses:
+          200:
+            description: OK
+        security:
+          - X-Auth-Token: []
+      get:
+        summary: ""
+        description: ""
+        tags:
+                - dscp_marking_rules
+        parameters:
+          - name: id
+            in: path
+            required: true
+            type: string
+          - name: policy_id
+            in: path
+            required: true
+            type: string
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: '#/definitions/DscpMarkingRuleShell'
+        security:
+          - X-Auth-Token: []
+securityDefinitions:
+  X-Auth-Token:
+    type: apiKey
+    name: X-Auth-Token
+    in: header
+definitions:
+  QosRuleTypes:
+    properties:
+      rule_types:
+        type: array
+        items:
+          $ref: '#/definitions/QosRuleType'
+
+
+  QosPolicyShell:
+    type: object
+    properties:
+      policy:
+        $ref: '#/definitions/qos_policy'
+  QosPolicies:
+    type: object
+    properties:
+      policies:
+        type: array
+        items:
+          $ref: '#/definitions/qos_policy'
+  BwLimitRuleShell:
+    type: object
+    properties:
+      bandwidth_limit_rule:
+        $ref: '#/definitions/bandwidth_limit_rule_detail'
+  BwLimitRules:
+    type: object
+    properties:
+      bandwidth_limit_rules:
+        type: array
+        items:
+          $ref:  '#/definitions/bandwidth_limit'
+
+  dscp_marking_rule_detail_array:
+    properties:
+      dscp_marking_rules:
+        type: array
+        $ref: '#/definitions/dscp_marking_rule_detail'
+  DscpMarkingRuleShell:
+    type: object
+    properties:
+      dscp_marking_rule:
+        $ref: '#/definitions/dscp_marking'
+  dscp_marking_rule_detail:
+    properties:
+      id:
+        type: string
+      dscp_mark:
+        type: integer
+  DscpMarkingRules:
+    type: object
+    properties:
+      dscp_marking_rules:
+        type: array
+        items:
+          $ref: '#/definitions/dscp_marking'
+  qos_policy:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The ID of the qos_policy.
+      description:
+        type: string
+        description: A human-readable description of the qos policy.
+      name:
+        type: string
+        description: A human-readable name for the qos policy.
+      project_id:
+        type: string
+        description: The ID of the project that owns the resource.
+      tenant_id:
+        type: string
+        description: The ID of the project that owns the resource.
+      shared:
+        type: boolean
+        description: Indicates whether this policy is shared across all projects.
+      rules:
+        type: array
+        description: The ID of the project that owns the resource.
+        items:
+          type: object
+          $ref: '#/definitions/qos_rule'
+
+
+  qos_rule:
+    type: object
+    discriminator: type
+    # required:
+    #   - QosRuleType
+    properties:
+      id:
+        type: string
+        description: The ID of the Bandwidth qos_rule.
+      qos_policy_id:
+        type: string
+        description: The ID of the Bandwidth qos_policy.
+      type:
+            type: string
+
+  bandwidth_limit_rule_detail:
+    properties:
+      id:
+        type: string
+      max_kbps:
+        type: integer
+      max_burst_kbps:
+        type: integer
+
+  bandwidth_limit_rule_detail_array:
+    properties:
+      bandwidth_limit_rules:
+        type: array
+        items:
+          $ref: '#/definitions/bandwidth_limit_rule_detail'
+  bandwidth_limit:
+    description: A Bandwidth limit rule.
+    allOf:
+      - $ref: '#/definitions/qos_rule'
+      - properties:
+          max_kbps:
+            type: integer
+            description: The max Bandwidth.
+          max_burst_kbps:
+            type: integer
+            description: The max burst.
+
+  dscp_marking:
+    description: A dscp marking rule.
+    allOf:
+      - $ref: '#/definitions/qos_rule'
+      - properties:
+          dscp_mark:
+            type: integer
+            description: The dscp mark.
+
+
+  QosRuleType:
+    description: qos rule type.
+    properties:
+      type:
+        type: string
+        enum:
+          - bandwidth_limit
+          - dscp_marking
+        description: bandwidth_limit or dscp_marking
+
+
+

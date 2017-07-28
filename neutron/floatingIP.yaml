@@ -1,0 +1,188 @@
+# SDN-Hub FloatingIP
+swagger: '2.0'
+# created_at 2017-03-28
+# author: diroguan
+info:
+  version: "0.0.1"
+  title: FloatingIP
+  description: SDN-Hub Neutron Network model, FloatingIP Model
+# Describe your paths here
+
+host: 192.168.8.226:9696
+basePath: /v2.0
+produces:
+  - application/json
+consumes:
+  - application/json
+  - application/xml
+schemes:
+  - http
+paths:
+  /floatingips:
+    get:
+      tags:
+        - floatingips
+      description:
+        return a array of floatingips information
+      parameters:
+        - name: fields
+          in: query
+          type: string
+          description:  The fields that you want the server to return. If no `fields` query parameter is specified, the networking API returns all attributes allowed by the policy settings. By using `fields` parameter, the API returns only the requested set of attributes. `fields` parameter can be specified multiple times. For example, if you specify `fields=id&fields=name` in the request URL, only `id` and `name` attributes will be returned.
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: floatingips
+            $ref: '#/definitions/FloatingIPs'
+      security:
+        - X-Auth-Token: []
+    post:
+      tags:
+        - floatingips
+      description: post floatingips
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: body
+          description: floatingips to post
+          required: false
+          schema:
+            $ref: "#/definitions/FloatingIPShell"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/FloatingIPShell'
+      security:
+        - X-Auth-Token: []
+
+  /floatingips/{id}:
+    put:
+      summary: update
+      description:  update
+      tags:
+        - floatingips
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+        - in: body
+          name: body
+          description:   to post
+          required: false
+          schema:
+            $ref: "#/definitions/FloatingIPShell"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/FloatingIPShell'
+          description: OK
+      security:
+        - X-Auth-Token: []
+    delete:
+      tags:
+        - floatingips
+      summary: ""
+      description: ""
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+      security:
+        - X-Auth-Token: []
+    get:
+      summary: ""
+      description: ""
+      tags:
+              - floatingips
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/FloatingIPShell'
+      security:
+        - X-Auth-Token: []
+
+securityDefinitions:
+  X-Auth-Token:
+    type: apiKey
+    name: X-Auth-Token
+    in: header
+definitions:
+
+  FloatingIPs:
+    properties:
+      floatingips:
+        type: array
+        items:
+          $ref: '#/definitions/FloatingIP'
+  FloatingIPShell:
+    type: object
+    properties:
+      floatingip:
+        $ref: '#/definitions/FloatingIP'
+  FloatingIP:
+    type: object
+    properties:
+      id:
+        type: string
+        description:    The ID of the floating IP.
+      description:
+        type: string
+        description: A human-readable description for the resource.
+      router_id:
+        type: string
+        description: The ID of the router for the floating IP.
+      status:
+        type: string
+        description: The status of the floating IP. Values are ACTIVE, DOWN and ERROR.
+      tenant_id:
+        type: string
+        description: The ID of the project.
+      created_at:
+        type: string
+        description: Time at which the resource has been created (in UTC ISO8601 format).
+      updated_at:
+        type: string
+        description: Time at which the resource has been updated (in UTC ISO8601 format).
+      revision_number:
+        type: integer
+        description: The revision number of the resource.
+      project_id:
+        type: string
+        description: The ID of the project.
+      floating_network_id:
+        type: string
+        description: The ID of the network associated with the floating IP.
+      fixed_ip_address:
+        type: string
+        description: The fixed IP address that is associated with the floating IP address.
+      floating_ip_address:
+        type: string
+        description: The floating IP address.
+      port_id:
+        type: string
+        description: The ID of a port associated with the floating IP.
+      subnet_id:
+        type: string
+        description: The ID of a subnet associated with the floating IP.
+

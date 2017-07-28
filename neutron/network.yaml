@@ -1,0 +1,251 @@
+# SDN-Hub Network
+swagger: '2.0'
+
+# create at 2017-3-30
+# author : diroguan
+info:
+  version: "1.0.0"
+  title: Network
+  description: SDN-Hub Neutron Network model, Network Model
+
+host: 192.168.8.226:9696
+basePath: /v2.0
+produces:
+  - application/json
+consumes:
+  - application/json
+  - application/xml
+schemes:
+  - http
+paths:
+  /networks:
+    get:
+      tags:
+        - networks
+      description:
+        return a array of networks information
+      parameters:
+        - name: fields
+          in: query
+          type: string
+          description:  The fields that you want the server to return. If no `fields` query parameter is specified, the networking API returns all attributes allowed by the policy settings. By using `fields` parameter, the API returns only the requested set of attributes. `fields` parameter can be specified multiple times. For example, if you specify `fields=id&fields=name` in the request URL, only `id` and `name` attributes will be returned.
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: networks
+            $ref: '#/definitions/NetworksShell'
+      security:
+        - X-Auth-Token: []
+    post:
+      tags:
+        - networks
+      description: post network
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: body
+          description: network to post
+          required: false
+          schema:
+            $ref: "#/definitions/NetworkShell"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/NetworkShell'
+      security:
+        - X-Auth-Token: []
+
+  /networks/{netid}:
+    put:
+      summary: update
+      description:  update
+      tags:
+        - networks
+      parameters:
+        - name: netid
+          in: path
+          description: ""
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: network to post
+          required: false
+          schema:
+            $ref: "#/definitions/NetworkShell"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/NetworkShell'
+          description: OK
+      security:
+        - X-Auth-Token: []
+    delete:
+      tags:
+        - networks
+      summary: ""
+      description: ""
+      parameters:
+        - name: netid
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+      security:
+        - X-Auth-Token: []
+    get:
+      summary: ""
+      description: ""
+      tags:
+              - networks
+      parameters:
+        - name: netid
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/NetworkShell'
+      security:
+        - X-Auth-Token: []
+
+
+
+
+securityDefinitions:
+  X-Auth-Token:
+    type: apiKey
+    name: X-Auth-Token
+    in: header
+definitions:
+  NetworksShell:
+    properties:
+      networks:
+        type: array
+        items:
+          $ref: '#/definitions/Network'
+  NetworkShell:
+    properties:
+      network:
+        $ref: '#/definitions/Network'
+  Network:
+    properties:
+      id:
+        type: string
+        description:    The ID of the network.
+      name:
+        type: string
+        description: Human-readable name of the network.
+      description:
+        type: string
+        description: A human-readable description for the resource.
+      admin_state_up:
+        type: boolean
+        description: The administrative state of the network, which is up (true) or down (false).
+      availability_zone_hints:
+        type: array
+        description:    The availability zone candidate for the network.
+        items:
+          type: string
+          title: availability_zone_hint
+      availability_zones:
+        type: array
+        description:    The availability zone for the network.
+        items:
+          type: string
+          title: availability_zone
+      created_at:
+        type: string
+        description: Time at which the resource has been created (in UTC ISO8601 format).
+      mtu:
+        type: integer
+        description: The maximum transmission unit (MTU) value to address fragmentation. Minimum value is 68 for IPv4, and 1280 for IPv6.
+      port_security_enabled:
+        type: boolean
+        description:    The port security status of the network. Valid values are enabled (true) and disabled (false). This value is used as the default value of port_security_enabled field of a newly created port.
+      project_id:
+        type: string
+        description: The ID of the project.
+      provider:network_type:
+        type: string
+        description: The type of physical network that this network is mapped to. For example, flat, vlan, vxlan, or gre. Valid values depend on a networking back-end.
+      provider:physical_network:
+        type: string
+        description: The physical network where this network is implemented.
+      provider:segmentation_id:
+        type: integer
+        description: The ID of the isolated segment on the physical network. The network_type attribute defines the segmentation model. For example, if the network_type value is vlan, this ID is a vlan identifier. If the network_type value is gre, this ID is a gre key.
+      qos_policy_id:
+        type: string
+        description: The ID of the QoS policy.
+      router:external:
+        type: boolean
+        description: Indicates whether this network can provide floating IPs via a router.
+      segments:
+        type: array
+        description: A list of provider segment objects.
+        items:
+          title: segment
+          $ref: '#/definitions/Segment'
+      shared:
+        type: boolean
+        description: Indicates whether this network is shared across all tenants. By default, only administrative users can change this value.
+      status:
+        type: string
+        description: The network status. Values are ACTIVE, DOWN, BUILD or ERROR.
+      subnets:
+        type: array
+        description: The associated subnets.
+        items:
+          type: string
+          title: subnet_id
+      tenant_id:
+        type: string
+        description: The ID of the project.
+      updated_at:
+        type: string
+        description: Time at which the resource has been updated (in UTC ISO8601 format).
+      vlan_transparent:
+        type: boolean
+        description: Indicates the VLAN transparency mode of the network, which is VLAN transparent (true) or not VLAN transparent (false).
+
+
+
+
+  Segment:
+    properties:
+      id:
+        type: string
+        description: The UUID of the segment.
+      name:
+        type: string
+        description: Human-readable name of the resource.
+      description:
+        type: string
+        description: A human-readable description for the resource.
+      network_id:
+        type: string
+        description: The ID of the attached network.
+      physical_network:
+        type: string
+        description: The physical network where this network is implemented.
+      network_type:
+        type: string
+        description: The type of physical network that maps to this network resource. For example, flat, vlan, vxlan, or gre.
+      segmentation_id:
+        type: integer
+        description: The ID of the isolated segment on the physical network. The network_type attribute defines the segmentation model. For example, if the network_type value is vlan, this ID is a vlan identifier. If the network_type value is gre, this ID is a gre key.
+

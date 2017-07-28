@@ -1,0 +1,250 @@
+# SDN-Hub Subnet
+swagger: '2.0'
+
+# create at 2017-3-30
+# author : diroguan
+info:
+  version: "0.0.1"
+  title: subnet
+  description: SDN-Hub Neutron Network model, Subnet Model
+
+host: 192.168.8.226:9696
+basePath: /v2.0
+produces:
+  - application/json
+consumes:
+  - application/json
+  - application/xml
+schemes:
+  - http
+paths:
+  /subnets:
+    get:
+      tags:
+        - subnets
+      description:
+        return a array of subnets information
+      parameters:
+        - name: fields
+          in: query
+          type: string
+          description:  The fields that you want the server to return. If no `fields` query parameter is specified, the networking API returns all attributes allowed by the policy settings. By using `fields` parameter, the API returns only the requested set of attributes. `fields` parameter can be specified multiple times. For example, if you specify `fields=id&fields=name` in the request URL, only `id` and `name` attributes will be returned.
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: subnets
+            $ref: '#/definitions/Subnets'
+      security:
+        - X-Auth-Token: []
+    post:
+      tags:
+        - subnets
+      description: post subnets
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: body
+          name: body
+          description: network to post
+          required: false
+          schema:
+            $ref: "#/definitions/SubnetShell"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/SubnetShell'
+      security:
+        - X-Auth-Token: []
+
+  /subnets/{id}:
+    put:
+      summary: update
+      description:  update
+      tags:
+        - subnets
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+        - in: body
+          name: body
+          description:   to post
+          required: false
+          schema:
+            $ref: "#/definitions/SubnetShell"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/SubnetShell'
+          description: OK
+      security:
+        - X-Auth-Token: []
+    delete:
+      tags:
+        - subnets
+      summary: ""
+      description: ""
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/SubnetShell'
+      security:
+        - X-Auth-Token: []
+    get:
+      summary: ""
+      description: ""
+      tags:
+              - subnets
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/SubnetShell'
+      security:
+        - X-Auth-Token: []
+securityDefinitions:
+  X-Auth-Token:
+    type: apiKey
+    name: X-Auth-Token
+    in: header
+definitions:
+  Subnets:
+    properties:
+      subnets:
+        type: array
+        items:
+          $ref: '#/definitions/Subnet'
+  SubnetShell:
+    properties:
+      subnet:
+        $ref: '#/definitions/Subnet'
+  DnsServerArray:
+    type: array
+    # required: false
+    # wrapped: false
+    items:
+      type: string
+  HostRoutesArray:
+    type: array
+    items:
+      $ref: "#/definitions/HostRoute"
+    # wrapped: false
+  ServiceTypeArray:
+    type: array
+    items:
+      type: string
+  AllocationpoolArray:
+    type: array
+    # wrapped: false
+    items:
+      $ref: '#/definitions/AllocationPool'
+  Subnet:
+    properties:
+      id:
+        type: string
+        description: The ID of the subnet.
+      name:
+        type: string
+        description: Human-readable name of the resource.
+      tenant_id:
+        type: string
+        description: The ID of the project.
+      project_id:
+        type: string
+        description: The ID of the project.
+      enable_dhcp:
+        type: boolean
+        description: Indicates whether dhcp is enabled or disabled for the subnet.
+      network_id:
+        type: string
+        description: The ID of the network to which the subnet belongs.
+      dns_nameservers:
+        $ref: '#/definitions/DnsServerArray'
+        # required: false
+        description: List of dns name servers associated with the subnet.
+      allocation_pools:
+        $ref: '#/definitions/AllocationpoolArray'
+        # required: false
+        description: Allocation pools with start and end IP addresses for this subnet.
+#        items:
+#          title: allocation_pool
+#          $ref: '#/definitions/AllocationPool'
+      host_routes:
+        $ref: '#/definitions/HostRoutesArray'
+#        type: array
+        description: Additional routes for the subnet. A list of dictionaries with destination and nexthop parameters.
+#        items:
+#          $ref: "#/definitions/HostRoute"
+      ip_version:
+        description: The IP protocol version. Value is 4 or 6.
+        type: integer
+      gateway_ip:
+        description: Gateway IP of this subnet. If the value is null that implies no gateway is associated with the subnet.
+        type: string
+      cidr:
+        description: The CIDR of the subnet.
+        type: string
+      created_at:
+        type: string
+        description: Time at which the subnet has been created.
+      description:
+        type: string
+        description: A human-readable description for the resource.
+      ipv6_address_mode:
+        type: string
+        description: The IPv6 address modes specifies mechanisms for assigning IP addresses. Value is slaac, dhcpv6-stateful, dhcpv6-stateless or null.
+      ipv6_ra_mode:
+        type: string
+        description: The IPv6 router advertisement specifies whether the networking service should transmit ICMPv6 packets, for a subnet. Value is slaac, dhcpv6-stateful, dhcpv6-stateless or null.
+      revision_number:
+        type: string
+        description: The revision number of the subnet.
+      segment_id:
+        type: string
+        description: The ID of a network segment the subnet is associated with. It is available when segment extension is enabled.
+      service_types:
+        $ref: "#/definitions/ServiceTypeArray"
+        description: The service types associated with the subnet.
+      subnetpool_id:
+        description: The ID of the subnet pool associated with the subnet.
+        type: string
+      updated_at:
+        type: string
+        description:    Time at which the subnet has been updated.
+
+
+  AllocationPool:
+    properties:
+      start:
+        type: string
+      end:
+        type: string
+
+  HostRoute:
+    properties:
+      destination:
+        type: string
+      nexthop:
+        type: string
+
